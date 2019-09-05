@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: worker-deployment
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   fanname: worker
+ template:
+  metadata:
+   labels:
+    fanname: worker
+  spec:
+   containers:
+    - name: worker
+      image: fanzoudocker/multi-worker
+      ports:
+       - containerPort: 6000
+      env:
+       - name: REDIS_HOST
+         value: redis-cluster-ip
+       - name: REDIS_PORT
+         value: '6379'

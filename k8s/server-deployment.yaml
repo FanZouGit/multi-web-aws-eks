@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: server-deployment
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   fanname: server
+ template:
+  metadata:
+   labels:
+    fanname: server
+  spec:
+   containers:
+    - name: server
+      image: fanzoudocker/multi-server
+      ports:
+       - containerPort: 5000
+      env:
+       - name: REDIS_HOST
+         value: redis-cluster-ip    
+       - name: REDIS_PORT
+         value: '6379'
+       - name: PGHOST
+         value: postgres-cluster-ip    
+       - name: PGPORT
+         value: '5432'
+       - name: PGUSER
+         value: postgres
+       - name: PGDATABASE
+         value: postgres
+       - name: PGPASSWORD
+         value: postgres_password
